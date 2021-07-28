@@ -1,0 +1,11 @@
+.navbarHidden {
+    width: 20%;
+    height: 100vh;
+    background-color: blueviolet;
+}
+
+.navbarShown {
+    width: 35%;
+    background-color: blue;
+    height: 100vh;
+}
