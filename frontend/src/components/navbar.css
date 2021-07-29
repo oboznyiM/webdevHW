@@ -1,11 +1,21 @@
 .navbarHidden {
-    width: 20%;
+    flex: 1;
+    min-width: 10px;
     height: 100vh;
     background-color: blueviolet;
 }
 
 .navbarShown {
-    width: 35%;
-    background-color: blue;
+    flex: 4;
     height: 100vh;
+}
+
+.openNavbar{
+    background-color: transparent;
+    border: none;
+}
+
+.closeNavbar{
+    background-color: transparent;
+    border: none;
 }

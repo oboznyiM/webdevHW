@@ -16,6 +16,7 @@ class Page extends React.Component {
                 }
             ]
         }
+
         this.onNavbarClick = this.onNavbarClick.bind(this)
         this.onLikeClick = this.onLikeClick.bind(this)
         this.filterState = this.filterState.bind(this)
@@ -25,7 +26,9 @@ class Page extends React.Component {
         fetch('http://localhost:8080/books')
             .then(res => res.json())
             .then(books => {
+
                 this.setState({candidates: books});
+
             })
     }
 
@@ -39,7 +42,8 @@ class Page extends React.Component {
             .then(res => res.json())
             .then(books => {
                 candidates = books
-                //candidates = candidates.filter(x => x.genre === genre);
+                if (genre !== "any")
+                    candidates = candidates.filter(x => x.genre === genre);
                 if (candidates.length === 0) {
                     candidates = [
                         {
@@ -55,9 +59,23 @@ class Page extends React.Component {
 
     }
 
-    onLikeClick() {
+    onLikeClick(event) {
         let candidates = this.state.candidates.slice()
-        console.log(candidates[0].id)
+        let books = JSON.parse(localStorage.getItem('books'))
+        if (books === null || books === undefined)
+            books = []
+
+        if (candidates[0].id !== -1 && event.target.className === "circle-button like") {
+            let found = 0
+            for (const book of books) {
+                if (book.id === this.state.candidates[0].id)
+                    found = 1
+            }
+            if (!found)
+                books.push(this.state.candidates[0])
+        }
+        localStorage.setItem('books', JSON.stringify(books));
+
         candidates.shift();
         if (candidates.length === 0) {
             candidates = [
@@ -80,11 +98,11 @@ class Page extends React.Component {
     }
 
     render() {
+        console.log(this.state.candidates)
         return(
-            <div style={{display: "flex"}}>
-                <button onClick={this.addBook}>Add book</button>
-                <Navbar hidden={this.state.navbarhidden} onClick={this.onNavbarClick} filterData={this.filterState}/>
-                <Select book={this.state.candidates[0]} onLikeClick={this.onLikeClick}/>
+            <div className={'page'}>
+                <Navbar showBookList={this.showBookList} hidden={this.state.navbarhidden} onClick={this.onNavbarClick} filterData={this.filterState}/>
+                <Select className={'select'} book={this.state.candidates[0]} onLikeClick={this.onLikeClick}/>
             </div>
         )
     }

@@ -15,19 +15,20 @@ class FilterForm extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-
-        alert('A name was submitted: ' + this.state.value);
         this.props.filter(this.state.value);
-        console.log("kek")
     }
 
     render() {
         return (
+
             <form onSubmit={this.handleSubmit}>
+                <h3>Filter books</h3>
                 <label>
-                    Name:
+                    Genre: <br/>
                     <input type="text" value={this.state.value} onChange={this.handleChange} />
                 </label>
+                <br/>
+                <hr/>
                 <input type="submit" value="Submit" />
             </form>
         );
